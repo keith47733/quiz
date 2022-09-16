@@ -1,39 +1,74 @@
 import 'package:flutter/material.dart';
 
-const String _title = 'Quiz';
+import './quiz_screen.dart';
+import './result.dart';
 
-var _questionIndex = 0;
-var _questions = [
-  'What\'s your favourite colour?',
-  'What\'s your fabourite animal?',
-];
-
-class Quiz extends StatelessWidget {
+class Quiz extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _renderAppBar(),
-      body: Column(children: _renderBody()),
-    );
+  State<StatefulWidget> createState() {
+    return _QuizState();
   }
 }
 
-Widget _renderAppBar() {
-  return AppBar(
-    title: Text(_title),
-  );
-}
+class _QuizState extends State<Quiz> {
+  var _questionIndex = 0;
+  var _totalScore = 0;
 
-List<Widget> _renderBody() {
-  return <Widget>[
-    Text(_questions[_questionIndex]),
-    ElevatedButton(child: Text('Answer 1'), onPressed: _answerQuestion),
-    ElevatedButton(child: Text('Answer 2'), onPressed: _answerQuestion),
-    ElevatedButton(child: Text('Answer 3'), onPressed: _answerQuestion),
+  static const _questions = [
+    {
+      'questionText': 'What\'s your favourite colour?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favourite animal?',
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9},
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favourite instructor?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+      ],
+    },
   ];
-}
 
-void _answerQuestion() {
-  _questionIndex++;
-  print('Answer chosen!');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Quiz')),
+      body: _questionIndex < _questions.length
+          ? QuizScreen(
+              _questionIndex,
+              _questions,
+              _answerQuestion,
+            )
+          : Result(_totalScore, _resetQuiz),
+    );
+  }
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
+    setState(() {
+      _questionIndex++;
+    });
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
 }
