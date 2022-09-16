@@ -8,8 +8,7 @@ class QuizScreen extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final Function answerQuestion;
 
-  QuizScreen(@required this.questionIndex, @required this.questions,
-      @required this.answerQuestion);
+  QuizScreen(this.questionIndex, this.questions, this.answerQuestion);
 
   @override
   Widget build(BuildContext context) {
