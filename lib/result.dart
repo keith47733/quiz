@@ -33,7 +33,9 @@ class Result extends StatelessWidget {
           ElevatedButton(
             child: Text('Restart Quiz!'),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue)),
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
             onPressed: resetHandler,
           ),
         ],
